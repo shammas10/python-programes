@@ -1,0 +1,37 @@
+Write GUI program to compute and displays the square root of an input number.
+
+
+import tkinter as tk
+import math
+
+
+def compute_sqrt():
+    try:
+        num = float(entry_number.get())
+        if num < 0:
+            label_result.config(text="Invalid input! Enter a positive number.", fg="red")
+        else:
+            sqrt_value = math.sqrt(num)
+            label_result.config(text=f"Square Root: {sqrt_value:.4f}", fg="green")
+    except ValueError:
+        label_result.config(text="Invalid input! Enter a number.", fg="red")
+
+
+root = tk.Tk()
+root.title("Square Root Calculator")
+
+
+tk.Label(root, text="Enter a Number:").grid(row=0, column=0, padx=5, pady=5)
+entry_number = tk.Entry(root)
+entry_number.grid(row=0, column=1, padx=5, pady=5)
+
+
+button_calculate = tk.Button(root, text="Calculate", command=compute_sqrt)
+button_calculate.grid(row=1, column=0, columnspan=2, pady=10)
+
+
+label_result = tk.Label(root, text="", fg="black")
+label_result.grid(row=2, column=0, columnspan=2, pady=5)
+
+
+root.mainloop()
