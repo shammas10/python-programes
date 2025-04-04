@@ -1,0 +1,60 @@
+Create a stud.csv file containing rollno, name, place and mark of students. Use
+this file and do the following
+a) Read and display the file contents
+b) Set rollno as index
+c) Display name and mark
+d) rollno,Name and mark in the order of name
+e) Display the rollno,name, mark in the descending order of mark
+f) Find the average mark,median and mode
+g) Find minimum and maximum marks
+h) variance and standard deviation of marks
+i) display the histogram of marks
+j) remove the place column ( university question)
+
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+
+df = pd.read_csv("stud.csv")
+print("a) File Contents:\n", df)
+
+
+df.set_index("rollno", inplace=True)
+print("\nb) DataFrame with Roll Number as Index:\n", df)
+
+print("\nc) Name and Mark:\n", df[["name", "mark"]])
+
+sorted_by_name = df.sort_values(by="name")[["name", "mark"]]
+print("\nd) Sorted by Name:\n", sorted_by_name)
+
+sorted_by_mark = df.sort_values(by="mark", ascending=False)[["name", "mark"]]
+print("\ne) Sorted by Mark (Descending):\n", sorted_by_mark)
+
+average_mark = df["mark"].mean()
+median_mark = df["mark"].median()
+mode_mark = df["mark"].mode()[0]
+print("\nf) Average:", average_mark)
+print("   Median:", median_mark)
+print("   Mode:", mode_mark)
+
+min_mark = df["mark"].min()
+max_mark = df["mark"].max()
+print("\ng) Minimum Mark:", min_mark)
+print("   Maximum Mark:", max_mark)
+
+variance = df["mark"].var()
+std_deviation = df["mark"].std()
+print("\nh) Variance:", variance)
+print("   Standard Deviation:", std_deviation)
+
+plt.figure(figsize=(8,5))
+plt.hist(df["mark"], bins=5, color="skyblue", edgecolor="black")
+plt.title("Histogram of Marks")
+plt.xlabel("Marks")
+plt.ylabel("Number of Students")
+plt.grid(True)
+plt.show()
+
+df.drop(columns=["place"], inplace=True)
+print("\nj) Data After Removing 'place' Column:\n", df)

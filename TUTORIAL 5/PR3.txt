@@ -1,0 +1,47 @@
+Given the sales information of a company as CSV file with the following fields
+month_number, facecream, facewash, toothpaste, bathingsoap, shampoo,
+moisturizer, total_units, total_profit. Write Python codes to visualize the data as
+follows
+1) Toothpaste sales data of each month and show it using a scatter plot.
+2) Face cream and face wash product sales data and show it using the bar
+chart.
+3) Calculate total sale data for last year for each product and show it using a
+Pie chart. ( university question)
+
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+df = pd.read_csv("company_sales_data.csv")
+
+plt.figure(figsize=(8, 5))
+plt.scatter(df['month_number'], df['toothpaste'], color='blue', label='Toothpaste Sales')
+plt.title('Toothpaste Sales per Month')
+plt.xlabel('Month Number')
+plt.ylabel('Toothpaste Units Sold')
+plt.grid(True)
+plt.legend()
+plt.tight_layout()
+plt.show()
+
+plt.figure(figsize=(8, 5))
+bar_width = 0.4
+months = df['month_number']
+plt.bar(months - 0.2, df['facecream'], width=bar_width, label='Face Cream', color='orange')
+plt.bar(months + 0.2, df['facewash'], width=bar_width, label='Face Wash', color='green')
+plt.title('Face Cream and Face Wash Sales per Month')
+plt.xlabel('Month Number')
+plt.ylabel('Units Sold')
+plt.xticks(months)
+plt.legend()
+plt.tight_layout()
+plt.show()
+
+products = ['facecream', 'facewash', 'toothpaste', 'bathingsoap', 'shampoo', 'moisturizer']
+total_sales = [df[product].sum() for product in products]
+
+plt.figure(figsize=(7, 7))
+plt.pie(total_sales, labels=products, autopct='%1.1f%%', startangle=140)
+plt.title('Total Sales Distribution for Each Product (Yearly)')
+plt.tight_layout()
+plt.show()

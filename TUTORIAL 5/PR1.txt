@@ -1,0 +1,40 @@
+Given a file “auto.csv” of automobile data with the fields index, company,
+body-style, wheel-base, length, engine-type, num-of-cylinders, horsepower
+average-mileage, and price, write Python codes using Pandas to
+1) Clean and Update the CSV file
+2) Find the most expensive car company name
+3) Print all toyota car details
+4) Print total cars of all companies
+5) Find the highest priced car of all companies
+6) Find the average mileage of all companies
+7) Sort all cars by Price column ( university question)
+
+
+import pandas as pd
+
+
+df = pd.read_csv("auto.csv")
+
+df.dropna(inplace=True)  
+df.drop_duplicates(inplace=True)  
+df.reset_index(drop=True, inplace=True) 
+
+most_expensive_car = df.loc[df["price"].idxmax()]
+print("Most expensive car company:", most_expensive_car["company"])
+
+toyota_cars = df[df["company"].str.lower() == "toyota"]
+print("\nAll Toyota Car Details:\n", toyota_cars)
+
+total_cars = df["company"].value_counts()
+print("\nTotal Cars of All Companies:\n", total_cars)
+
+highest_price_cars = df.loc[df.groupby("company")["price"].idxmax(), ["company", "price"]]
+print("\nHighest Priced Car of Each Company:\n", highest_price_cars)
+
+avg_mileage = df.groupby("company")["average-mileage"].mean()
+print("\nAverage Mileage of All Companies:\n", avg_mileage)
+
+sorted_cars = df.sort_values(by="price", ascending=False)
+print("\nCars sorted by Price:\n", sorted_cars)
+
+df.to_csv("cleaned_auto.csv", index=False)
